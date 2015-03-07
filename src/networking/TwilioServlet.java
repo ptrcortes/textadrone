@@ -12,6 +12,8 @@ import com.twilio.sdk.verbs.Message;
 import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.TwiMLResponse;
 
+import control.CommandInterpreter;
+
 public class TwilioServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 7206213494388714136L;
@@ -19,6 +21,9 @@ public class TwilioServlet extends HttpServlet
 
 	ApprovedSenderList senders;
 
+	/**
+	 * This contructor simply initializes the list of approved command senders
+	 */
 	public TwilioServlet()
 	{
 		senders = new ApprovedSenderList();
@@ -28,6 +33,10 @@ public class TwilioServlet extends HttpServlet
 		// senders.add("+17143305057", "Peter");
 	}
 
+	/**
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
 		String fromNumber = request.getParameter("From");
@@ -46,18 +55,7 @@ public class TwilioServlet extends HttpServlet
 				senders.add(fromNumber, tokens[1]);
 				System.out.println("authenticated successfully with name " + tokens[1]);
 
-				TwiMLResponse twiml = new TwiMLResponse();
-				Message sms = new Message("authentication request approved");
-				try
-				{
-					twiml.append(sms);
-				}
-				catch (TwiMLException e)
-				{
-					e.printStackTrace();
-				}
-				response.setContentType("application/xml");
-				response.getWriter().print(twiml.toXML());
+				respondToSMS(response, "authentication request approved");
 			}
 
 			else
@@ -72,20 +70,35 @@ public class TwilioServlet extends HttpServlet
 		else
 		{
 			System.out.println("from " + knownSender + ": " + messageContent);
-			String smsResponse = "request recieved, " + knownSender;
 
-			TwiMLResponse twiml = new TwiMLResponse();
-			Message sms = new Message(smsResponse);
-			try
-			{
-				twiml.append(sms);
-			}
-			catch (TwiMLException e)
-			{
-				e.printStackTrace();
-			}
-			response.setContentType("application/xml");
-			response.getWriter().print(twiml.toXML());
+			if (CommandInterpreter.interpret(messageContent))
+				respondToSMS(response, "command sent successfully");
+
+			else
+				respondToSMS(response, "invalid command or drone communication failure");
 		}
+	}
+
+	/**
+	 * This method is used to make the servlet logic cleaner.
+	 * 
+	 * @param response The server should respond with this servlet channel
+	 * @param smsResponse The string to send the cellphone user
+	 * @throws IOException
+	 */
+	private void respondToSMS(HttpServletResponse response, String smsResponse) throws IOException
+	{
+		TwiMLResponse twiml = new TwiMLResponse();
+		Message sms = new Message(smsResponse);
+		try
+		{
+			twiml.append(sms);
+		}
+		catch (TwiMLException e)
+		{
+			e.printStackTrace();
+		}
+		response.setContentType("application/xml");
+		response.getWriter().print(twiml.toXML());
 	}
 }
