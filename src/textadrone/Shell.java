@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
  */
 public class Shell
 {
-	public static void execute(String command)
+	public static String execute(String command)
 	{
 		StringBuffer output = new StringBuffer();
 
@@ -27,16 +27,14 @@ public class Shell
 			String line = "";
 			while ((line = reader.readLine()) != null)
 				output.append(line + "\n");
-			
+
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		System.out.println(output);
-//		return output.toString();
-
+		System.out.println("> " + command + ": " + output);
+		return output.toString();
 	}
-
 }

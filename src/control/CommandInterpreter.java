@@ -3,6 +3,7 @@
  */
 package control;
 
+import textadrone.Shell;
 import utility.DroneRequest;
 
 /**
@@ -23,7 +24,7 @@ public class CommandInterpreter
 					case doCircle:
 						break;
 					case doFlip:
-						break;
+						return runNode("artest.js");
 					case takePicture:
 						return true;
 					case reportStatus:
@@ -33,5 +34,10 @@ public class CommandInterpreter
 				}
 
 		return false;
+	}
+
+	private static boolean runNode(String file)
+	{
+		return Shell.execute("nodejs " + file).contains("asdf");
 	}
 }
