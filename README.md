@@ -1,5 +1,4 @@
-TextADrone
-==============================
+# TextADrone
 
 Wouldn't it be nice to control your drone via text?
 
