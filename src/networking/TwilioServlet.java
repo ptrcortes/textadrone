@@ -14,6 +14,14 @@ import com.twilio.sdk.verbs.TwiMLResponse;
 
 import control.CommandInterpreter;
 
+/**
+ * This servlet modifies the default javax servlet to allow communication with
+ * Twilio systems. The servlet interprets POSTs and generates XMLs to send back
+ * to Twilio.
+ *
+ * @author Peter Cortes
+ * @author Twilio
+ */
 public class TwilioServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 7206213494388714136L;
@@ -83,7 +91,7 @@ public class TwilioServlet extends HttpServlet
 	 * This method is used to make the servlet logic cleaner.
 	 * 
 	 * @param response The server should respond with this servlet channel
-	 * @param smsResponse The string to send the cellphone user
+	 * @param smsResponse The string to send the cell phone user
 	 * @throws IOException
 	 */
 	private void respondToSMS(HttpServletResponse response, String smsResponse) throws IOException

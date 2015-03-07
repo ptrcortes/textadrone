@@ -7,6 +7,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 
 /**
+ * This class initializes the Jetty server with a TwilioServlet handler to
+ * process POSTs.
+ *
  * @author Peter Cortes
  */
 public class SMSReciever
