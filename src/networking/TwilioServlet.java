@@ -79,7 +79,7 @@ public class TwilioServlet extends HttpServlet
 		{
 			System.out.println("from " + knownSender + ": " + messageContent);
 
-			if (CommandInterpreter.interpret(messageContent))
+			if (CommandInterpreter.interpret(messageContent).status)
 				respondToSMS(response, "command sent successfully");
 
 			else

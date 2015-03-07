@@ -6,14 +6,19 @@ package textadrone;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import utility.StatusPack;
+
 /**
- *
+ * This class uses the system shell to start nodejs processes. We need this
+ * because the javadrone API wasn't working, while nodejs was.
  *
  * @author Peter Cortes
  */
 public class Shell
 {
-	public static String execute(String command)
+	private final static String confirmation = "asdf";
+
+	public static StatusPack execute(String command)
 	{
 		StringBuffer output = new StringBuffer();
 
@@ -35,6 +40,7 @@ public class Shell
 		}
 
 		System.out.println("> " + command + ": " + output);
-		return output.toString();
+
+		return new StatusPack(output.toString().contains(confirmation), output.toString());
 	}
 }
