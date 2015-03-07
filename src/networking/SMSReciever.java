@@ -14,9 +14,6 @@ public class SMSReciever
 	public SMSReciever()
 	{
 		// Create a basic jetty server object that will listen on port 8080.
-		// Note that if you set this to port 0 then a randomly available port
-		// will be assigned that you can either look in the logs for the port,
-		// or programmatically obtain it for use in test cases.
 		Server server = new Server(8080);
 
 		// The ServletHandler is a dead simple way to create a context handler
@@ -48,5 +45,4 @@ public class SMSReciever
 		// See
 		// http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html#join()
 	}
-
 }

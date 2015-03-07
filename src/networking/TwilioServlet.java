@@ -15,30 +15,56 @@ import com.twilio.sdk.verbs.TwiMLResponse;
 public class TwilioServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 7206213494388714136L;
+	private static final String password = "cherry";
 
-	// service() responds to both GET and POST requests.
-	// You can also use doGet() or doPost()
-	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException
+	ApprovedSenderList senders;
+
+	public TwilioServlet()
 	{
-		ApprovedSenderList callers = new ApprovedSenderList();
-		callers.add("+14804153358", "Tom");
-		callers.add("+14802598397", "Kyler");
-		callers.add("+17143305057a", "Peter");
+		senders = new ApprovedSenderList();
+
+		// senders.add("+14804153358", "Tom");
+		// senders.add("+14802598397", "Kyler");
+		// senders.add("+17143305057", "Peter");
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
+	{
 		String fromNumber = request.getParameter("From");
-		String knownCaller = callers.get(fromNumber);
-		String message;
+		String knownSender = senders.get(fromNumber);
+		String messageContent = request.getParameter("Body");
 
-		System.out.println("incoming message: " + request.getParameter("Body"));
-
-		if (knownCaller != null)
+		//if sender not recognized and trying to authenticate
+		if (knownSender == null && messageContent.toLowerCase().contains("authenticate"))
 		{
-			message = "request recieved, " + knownCaller;
+			System.out.print(fromNumber + " trying to authenticate...");
+
+			String[] tokens = messageContent.split(" ");
+
+			if (tokens.length == 3 && tokens[2].equals(password))
+			{
+				senders.add(fromNumber, tokens[1]);
+				System.out.println("authenticated successfully with name " + tokens[1]);
+			}
+
+			else
+				System.out.println("authentication failed");
+		}
+
+		// echo the sender's message
+		else if (knownSender == null)
+			System.out.println("from " + fromNumber + ": " + messageContent);
+
+		// if the sender is recognized, echo message and respond with text
+		else
+		{
+			System.out.println("from " + knownSender + ": " + messageContent);
+			String smsResponse = "request recieved, " + knownSender;
 
 			TwiMLResponse twiml = new TwiMLResponse();
-			Message sms = new Message(message);
+			Message sms = new Message(smsResponse);
 			try
 			{
-
 				twiml.append(sms);
 			}
 			catch (TwiMLException e)
