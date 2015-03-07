@@ -20,15 +20,15 @@ public class CommandInterpreter
 			if (input.toLowerCase().contains(d.toString()))
 				switch (d)
 				{
-					case circle:
+					case doCircle:
 						break;
-					case flip:
+					case doFlip:
 						break;
-					case picture:
+					case takePicture:
 						return true;
-					case status:
+					case reportStatus:
 						break;
-					case video:
+					case takeVideo:
 						break;
 				}
 
