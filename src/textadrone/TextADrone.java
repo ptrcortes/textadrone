@@ -14,6 +14,7 @@ public class TextADrone
 {
 	public static void main(String[] args)
 	{
+		Shell.execute("nodejs artest.js");
 		new SMSReciever();
 		System.out.println();
 	}
