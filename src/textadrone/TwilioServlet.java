@@ -1,12 +1,14 @@
 package textadrone;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import com.twilio.sdk.verbs.TwiMLResponse;
-import com.twilio.sdk.verbs.TwiMLException;
+
 import com.twilio.sdk.verbs.Message;
+import com.twilio.sdk.verbs.TwiMLException;
+import com.twilio.sdk.verbs.TwiMLResponse;
 
 public class TwilioServlet extends HttpServlet
 {
@@ -20,6 +22,7 @@ public class TwilioServlet extends HttpServlet
 		Message message = new Message("Hello, Mobile Monkey");
 		try
 		{
+			System.out.println(request.getParameter("Body"));
 			twiml.append(message);
 		}
 		catch (TwiMLException e)
