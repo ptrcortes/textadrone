@@ -34,7 +34,7 @@ public class TwilioServlet extends HttpServlet
 		String knownSender = senders.get(fromNumber);
 		String messageContent = request.getParameter("Body");
 
-		//if sender not recognized and trying to authenticate
+		// if sender not recognized and trying to authenticate
 		if (knownSender == null && messageContent.toLowerCase().contains("authenticate"))
 		{
 			System.out.print(fromNumber + " trying to authenticate...");
@@ -45,6 +45,19 @@ public class TwilioServlet extends HttpServlet
 			{
 				senders.add(fromNumber, tokens[1]);
 				System.out.println("authenticated successfully with name " + tokens[1]);
+
+				TwiMLResponse twiml = new TwiMLResponse();
+				Message sms = new Message("authentication request approved");
+				try
+				{
+					twiml.append(sms);
+				}
+				catch (TwiMLException e)
+				{
+					e.printStackTrace();
+				}
+				response.setContentType("application/xml");
+				response.getWriter().print(twiml.toXML());
 			}
 
 			else
