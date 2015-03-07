@@ -5,6 +5,7 @@ package control;
 
 import textadrone.Shell;
 import utility.DroneRequest;
+import utility.StatusPack;
 
 /**
  * This static class interprets commands received by the SMSReciever and
@@ -15,7 +16,7 @@ import utility.DroneRequest;
  */
 public class CommandInterpreter
 {
-	public static boolean interpret(String input)
+	public static StatusPack interpret(String input)
 	{
 		for (DroneRequest d: DroneRequest.values())
 			if (input.toLowerCase().contains(d.toString()))
@@ -26,18 +27,18 @@ public class CommandInterpreter
 					case doFlip:
 						return runNode("artest.js");
 					case takePicture:
-						return true;
+						break;
 					case reportStatus:
 						break;
 					case takeVideo:
 						break;
 				}
 
-		return false;
+		return new StatusPack(false, "");
 	}
 
-	private static boolean runNode(String file)
+	private static StatusPack runNode(String file)
 	{
-		return Shell.execute("nodejs " + file).contains("asdf");
+		return Shell.execute("nodejs " + file);
 	}
 }
