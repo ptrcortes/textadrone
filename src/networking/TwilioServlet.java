@@ -1,7 +1,6 @@
 package networking;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
