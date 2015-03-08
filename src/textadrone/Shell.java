@@ -16,7 +16,7 @@ import utility.StatusPack;
  */
 public class Shell
 {
-	private final static String confirmation = "asdf";
+	private final static String confirmation = "successful";
 
 	public static StatusPack execute(String command)
 	{
@@ -41,6 +41,12 @@ public class Shell
 
 		System.out.println("> " + command + ": " + output);
 
-		return new StatusPack(output.toString().contains(confirmation), output.toString());
+		if (output.toString().contains(confirmation))
+		{
+			String text = output.toString().replace(confirmation, "");
+			return new StatusPack(true, text);
+		}
+
+		return new StatusPack(false, output.toString());
 	}
 }

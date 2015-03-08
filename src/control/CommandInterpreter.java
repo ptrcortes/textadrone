@@ -25,11 +25,11 @@ public class CommandInterpreter
 					case doCircle:
 						break;
 					case doFlip:
-						return runNode("artest.js");
+						return runNode("flip.js");
 					case takePicture:
 						break;
 					case reportStatus:
-						break;
+						return runNode("battery_status.js");
 					case takeVideo:
 						break;
 				}

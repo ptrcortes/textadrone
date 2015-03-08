@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utility.ApprovedSenderList;
+import utility.StatusPack;
 
 import com.twilio.sdk.verbs.Message;
 import com.twilio.sdk.verbs.TwiMLException;
@@ -79,8 +80,9 @@ public class TwilioServlet extends HttpServlet
 		{
 			System.out.println("from " + knownSender + ": " + messageContent);
 
-			if (CommandInterpreter.interpret(messageContent).status)
-				respondToSMS(response, "command sent successfully");
+			StatusPack droneResponse = CommandInterpreter.interpret(messageContent);
+			if (droneResponse.status)
+				respondToSMS(response, "command sent successfully:\n" + droneResponse.message);
 
 			else
 				respondToSMS(response, "invalid command or drone communication failure");
