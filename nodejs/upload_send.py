@@ -6,7 +6,7 @@ filename = "dronepic" + timestamp + ".jpg"
  
 import dropbox
 client = dropbox.client.DropboxClient(access_token)
-f = open("./pic.jpg")
+f = open("./pictures/tagged/faceDetection0.png")
 response = client.put_file(filename, f)
 url = client.media(response['path'])['url']
 print "successful" + url

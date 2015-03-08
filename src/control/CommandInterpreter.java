@@ -3,6 +3,7 @@
  */
 package control;
 
+import sample.DetectFaceDemo;
 import textadrone.Shell;
 import utility.DroneRequest;
 import utility.StatusPack;
@@ -54,5 +55,16 @@ public class CommandInterpreter
 		System.out.println("asdf" + sp.message);
 		sp.command = d;
 		return sp;
+	}
+	
+	private static StatusPack runDetection(DroneRequest d)
+	{
+		StatusPack njsSP = Shell.execute("nodejs ./nodejs/detect.js");
+		njsSP.command = d;
+		new DetectFaceDemo().run();
+		StatusPack pSP = Shell.execute("python ./nodejs/upload_send.py");
+		
+		
+		return njsSP;
 	}
 }

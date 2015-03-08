@@ -1,6 +1,7 @@
 package sample;
 
 import java.io.File;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
@@ -16,21 +17,23 @@ import org.opencv.objdetect.CascadeClassifier;
  *
  * @author Thomas Shucker
  */
-class DetectFaceDemo
+public class DetectFaceDemo
 {
 	public void run()
 	{
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
 		System.out.println("\nRunning DroneDetectFace");
 
 		// Create a face detector from the cascade file in the resources
 		// directory.
 
-		File cascadeFile = new File("/Users/tschucker/Documents/eclipseworkspace/testopencv/main/resources/", "lbpcascade_frontalface.xml");
+		File cascadeFile = new File("./resources/", "lbpcascade_frontalface.xml");
 		CascadeClassifier faceDetector = new CascadeClassifier(cascadeFile.getAbsolutePath());
 		System.out.println(faceDetector.empty());
 
-		File[] folder = new File("/Users/tschucker/arpics").listFiles();
-		Integer len = 0;
+		File[] folder = new File("./pictures/drone/").listFiles();
+		int len = 0;
 		for (File f: folder)
 		{
 			File interestImage = new File(f.toString());
@@ -51,7 +54,7 @@ class DetectFaceDemo
 			if (faceDetections.toArray().length > 0)
 			{
 				// Save the visualized detection.
-				String filename = "/Users/tschucker/arpics/tagged/faceDetection" + len.toString() + ".png";
+				String filename = "./pictures/ardrone" + len + ".png";
 				System.out.println(String.format("Writing %s", filename));
 				Highgui.imwrite(filename, image);
 				len++;

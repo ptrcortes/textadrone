@@ -14,7 +14,7 @@ pngStream
   .on('error', console.log)
   .on('data', function(pngBuffer) {
     lastPng = pngBuffer;
-		fs.writeFile("/Users/tschucker/arpics/arImage" + i.toString() +".png", lastPng,'base64', function(err) {
+		fs.writeFile("../pictures/ardrone" + i.toString() +".png", lastPng,'base64', function(err) {
 		    if(err) {
 		        console.log(err);
 		    } else {

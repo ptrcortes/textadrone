@@ -93,7 +93,7 @@ public class TwilioServlet extends HttpServlet
 			System.out.println("from " + knownSender + ": " + messageContent);
 
 			StatusPack droneResponse = CommandInterpreter.interpret(messageContent);
-			if (droneResponse.status && droneResponse.command == DroneRequest.takePicture)
+			if (droneResponse.status && (droneResponse.command == DroneRequest.takePicture || droneResponse.command == DroneRequest.detect))
 				respondWithMMS(response, "picture from drone", droneResponse.message);
 
 			else if (droneResponse.status)
