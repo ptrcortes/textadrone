@@ -32,6 +32,8 @@ public class CommandInterpreter
 						return runNode("battery_status.js");
 					case takeVideo:
 						break;
+					case configure:
+						return runNode("configure_drone.js");
 				}
 
 		return new StatusPack(false, "");

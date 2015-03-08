@@ -10,7 +10,7 @@ package utility;
  */
 public enum DroneRequest
 {
-	takePicture("take a picture"), takeVideo("record a video"), doCircle("do a circle"), doFlip("do a flip"), reportStatus("report status");
+	takePicture("take a picture"), takeVideo("record a video"), doCircle("do a circle"), doFlip("do a flip"), reportStatus("report status"), configure("configure");
 
 	private final String description;
 
