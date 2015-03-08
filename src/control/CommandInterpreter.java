@@ -27,7 +27,7 @@ public class CommandInterpreter
 					case doFlip:
 						return runNode("flip.js");
 					case takePicture:
-						break;
+						return runNode("ntest.js");
 					case reportStatus:
 						return runNode("battery_status.js");
 					case takeVideo:

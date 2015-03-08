@@ -3,15 +3,15 @@ var client  = arDrone.createClient();
 
 client.takeoff();
 
-client
-  .after(5000, function() {
+client.after(5000, function() {
     this.animate('flipBehind', 1000);
-  })
-  .after(3000, function() {
-    this.stop();
+});
+  
+client.after(3000, function() {
     this.land();
-  });
-	.after(1000, function(){
-		console.log("succesful"); 
-		process.exit(0);
-	})
+});
+
+client.after(1000, function() {
+	console.log("succesful"); 
+	process.exit(0);
+});
