@@ -30,7 +30,7 @@ public class CommandInterpreter
 						return runPython("upload_send.py", d);
 					case reportStatus:
 						return runNode("battery_status.js", d);
-					case takeVideo:
+					case detect:
 						break;
 					case configure:
 						return runNode("configure_drone.js", d);
