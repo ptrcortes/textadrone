@@ -39,6 +39,6 @@ public class CommandInterpreter
 
 	private static StatusPack runNode(String file)
 	{
-		return Shell.execute("nodejs " + file);
+		return Shell.execute("nodejs ./nodejs/" + file);
 	}
 }
