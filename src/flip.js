@@ -11,3 +11,7 @@ client
     this.stop();
     this.land();
   });
+	.after(1000, function(){
+		console.log("succesful"); 
+		process.exit(0);
+	})
