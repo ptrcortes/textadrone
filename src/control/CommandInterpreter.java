@@ -28,11 +28,11 @@ public class CommandInterpreter
 					case doFlip:
 						return runNode("flip.js", d);
 					case takePicture:
-						return runPython("upload_send.py", d);
+						return takePicture(d);
 					case reportStatus:
 						return runNode("battery_status.js", d);
 					case detect:
-						break;
+						return runDetection(d);
 					case configure:
 						return runNode("configure_drone.js", d);
 				}
@@ -47,24 +47,44 @@ public class CommandInterpreter
 		return sp;
 	}
 
-	private static StatusPack runPython(String file, DroneRequest d)
-	{
-		StatusPack sp = Shell.execute("python ./src/unused/" + file);
-		sp.message.replaceAll("\n", "");
-		sp.message.replaceAll("\r", "");
-		System.out.println("asdf" + sp.message);
-		sp.command = d;
-		return sp;
-	}
-	
 	private static StatusPack runDetection(DroneRequest d)
 	{
 		StatusPack njsSP = Shell.execute("nodejs ./nodejs/detect.js");
 		njsSP.command = d;
 		new DetectFaceDemo().run();
+
 		StatusPack pSP = Shell.execute("python ./nodejs/upload_send.py");
+		pSP.message.replaceAll("\n", "");
+		pSP.message.replaceAll("\r", "");
+		njsSP.message = pSP.message;
+
+		return njsSP;
+	}
+
+	private static StatusPack takePicture(DroneRequest d)
+	{
+		StatusPack njsSP = Shell.execute("nodejs ./nodejs/save_png_stream.js");
+		njsSP.command = d;
+
+		try
+		{
+			Thread.sleep(15000);
+		}
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		StatusPack pSP = Shell.execute("python ./nodejs/upload_send.py");
+		pSP.message.replaceAll("\n", "");
+		pSP.message.replaceAll("\r", "");
+		njsSP.message = pSP.message;
 		
+		System.out.println(njsSP.message);
+		
+		System.out.println(njsSP.command.toString());
+
 		return njsSP;
 	}
 }

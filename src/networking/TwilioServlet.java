@@ -93,7 +93,7 @@ public class TwilioServlet extends HttpServlet
 			System.out.println("from " + knownSender + ": " + messageContent);
 
 			StatusPack droneResponse = CommandInterpreter.interpret(messageContent);
-			if (droneResponse.status && (droneResponse.command == DroneRequest.takePicture || droneResponse.command == DroneRequest.detect))
+			if (droneResponse.command == DroneRequest.takePicture || droneResponse.command == DroneRequest.detect)
 				respondWithMMS(response, "picture from drone", droneResponse.message);
 
 			else if (droneResponse.status)
@@ -137,6 +137,7 @@ public class TwilioServlet extends HttpServlet
 	 */
 	private void respondWithMMS(HttpServletResponse response, String smsResponse, String mediaURL) throws IOException
 	{
+		System.out.println("responding with mms");
 		TwiMLResponse twiml = new TwiMLResponse();
 		Message message = new Message(smsResponse);
 		Media media = new Media(mediaURL);
@@ -151,5 +152,7 @@ public class TwilioServlet extends HttpServlet
 		}
 		response.setContentType("application/xml");
 		response.getWriter().print(twiml.toXML());
+		
+		System.out.println("message 'sent'");
 	}
 }
