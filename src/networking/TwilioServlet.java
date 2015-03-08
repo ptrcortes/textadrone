@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utility.ApprovedSenderList;
+import utility.DroneRequest;
 import utility.StatusPack;
 
+import com.twilio.sdk.verbs.Media;
 import com.twilio.sdk.verbs.Message;
 import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.TwiMLResponse;
@@ -64,7 +66,7 @@ public class TwilioServlet extends HttpServlet
 				senders.add(fromNumber, tokens[1]);
 				System.out.println("authenticated successfully with name " + tokens[1]);
 
-				respondToSMS(response, "authentication request approved");
+				respondWithSMS(response, "authentication request approved");
 			}
 
 			else
@@ -81,11 +83,14 @@ public class TwilioServlet extends HttpServlet
 			System.out.println("from " + knownSender + ": " + messageContent);
 
 			StatusPack droneResponse = CommandInterpreter.interpret(messageContent);
-			if (droneResponse.status)
-				respondToSMS(response, "command sent successfully:\n" + droneResponse.message);
+			if (droneResponse.status && droneResponse.command == DroneRequest.takePicture)
+				respondWithMMS(response, "picture from drone", droneResponse.message);
+
+			else if (droneResponse.status)
+				respondWithSMS(response, "command sent successfully:\n" + droneResponse.message);
 
 			else
-				respondToSMS(response, "invalid command or drone communication failure");
+				respondWithSMS(response, "invalid command or drone communication failure");
 		}
 	}
 
@@ -96,13 +101,31 @@ public class TwilioServlet extends HttpServlet
 	 * @param smsResponse The string to send the cell phone user
 	 * @throws IOException
 	 */
-	private void respondToSMS(HttpServletResponse response, String smsResponse) throws IOException
+	private void respondWithSMS(HttpServletResponse response, String smsResponse) throws IOException
 	{
 		TwiMLResponse twiml = new TwiMLResponse();
 		Message sms = new Message(smsResponse);
 		try
 		{
 			twiml.append(sms);
+		}
+		catch (TwiMLException e)
+		{
+			e.printStackTrace();
+		}
+		response.setContentType("application/xml");
+		response.getWriter().print(twiml.toXML());
+	}
+
+	private void respondWithMMS(HttpServletResponse response, String smsResponse, String mediaURL) throws IOException
+	{
+		TwiMLResponse twiml = new TwiMLResponse();
+		Message message = new Message(smsResponse);
+		Media media = new Media("https://dl.dropboxusercontent.com/1/view/rh40j60m6ein7wg/Apps/textadroneDB/hackazMar-03-13.jpg");
+		try
+		{
+			message.append(media);
+			twiml.append(message);
 		}
 		catch (TwiMLException e)
 		{

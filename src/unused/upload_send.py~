@@ -11,7 +11,7 @@ f = open("./pic.jpg")
 response = client.put_file(filename, f)
 url = client.media(response['path'])['url']
 print url
-'''
+ 
 twilio_phone_number = "+14242924689"
 account_sid = "PN487c2bca672c08f6824a6dc4706914d8"
 auth_token = "620bf1fc6865d6274b2df9fbe9b9a149"
@@ -30,6 +30,4 @@ for msg in messages:
     except:
         pass
  
-print number
-'''
-
+print number 

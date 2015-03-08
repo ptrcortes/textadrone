@@ -25,22 +25,24 @@ public class CommandInterpreter
 					case doCircle:
 						break;
 					case doFlip:
-						return runNode("flip.js");
+						return runNode("flip.js", d);
 					case takePicture:
-						return runNode("ntest.js");
+						return runNode("ntest.js", d);
 					case reportStatus:
-						return runNode("battery_status.js");
+						return runNode("battery_status.js", d);
 					case takeVideo:
 						break;
 					case configure:
-						return runNode("configure_drone.js");
+						return runNode("configure_drone.js", d);
 				}
 
 		return new StatusPack(false, "");
 	}
 
-	private static StatusPack runNode(String file)
+	private static StatusPack runNode(String file, DroneRequest d)
 	{
-		return Shell.execute("nodejs ./nodejs/" + file);
+		StatusPack sp = Shell.execute("nodejs ./nodejs/" + file);
+		sp.command = d;
+		return sp;
 	}
 }
