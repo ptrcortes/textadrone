@@ -2,15 +2,15 @@ access_token = "IGq2mLEAeLcAAAAAAAAACdK5Lqs8SWHp-IcKA4xO38vy8B7WgTHa9bYaGFPqsh-P
  
 import datetime
 timestamp = datetime.datetime.now().strftime("%h-%m-%S")
-filename = "hackaz" + timestamp + ".jpg"
-print filename
+filename = "dronepic" + timestamp + ".jpg"
  
 import dropbox
 client = dropbox.client.DropboxClient(access_token)
 f = open("./pic.jpg")
 response = client.put_file(filename, f)
 url = client.media(response['path'])['url']
-print url
+print "successful" + url
+
 '''
 twilio_phone_number = "+14242924689"
 account_sid = "PN487c2bca672c08f6824a6dc4706914d8"

@@ -27,7 +27,7 @@ public class CommandInterpreter
 					case doFlip:
 						return runNode("flip.js", d);
 					case takePicture:
-						return runNode("ntest.js", d);
+						return runPython("upload_send.py", d);
 					case reportStatus:
 						return runNode("battery_status.js", d);
 					case takeVideo:
@@ -42,6 +42,16 @@ public class CommandInterpreter
 	private static StatusPack runNode(String file, DroneRequest d)
 	{
 		StatusPack sp = Shell.execute("nodejs ./nodejs/" + file);
+		sp.command = d;
+		return sp;
+	}
+
+	private static StatusPack runPython(String file, DroneRequest d)
+	{
+		StatusPack sp = Shell.execute("python ./src/unused/" + file);
+		sp.message.replaceAll("\n", "");
+		sp.message.replaceAll("\r", "");
+		System.out.println("asdf" + sp.message);
 		sp.command = d;
 		return sp;
 	}

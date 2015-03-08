@@ -25,6 +25,16 @@ import control.CommandInterpreter;
  * @author Peter Cortes
  * @author Twilio
  */
+/**
+ *
+ *
+ * @author Peter Cortes
+ */
+/**
+ *
+ *
+ * @author Peter Cortes
+ */
 public class TwilioServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 7206213494388714136L;
@@ -117,11 +127,19 @@ public class TwilioServlet extends HttpServlet
 		response.getWriter().print(twiml.toXML());
 	}
 
+	/**
+	 * This method is used to clean up the servlet code.
+	 * 
+	 * @param response
+	 * @param smsResponse
+	 * @param mediaURL
+	 * @throws IOException
+	 */
 	private void respondWithMMS(HttpServletResponse response, String smsResponse, String mediaURL) throws IOException
 	{
 		TwiMLResponse twiml = new TwiMLResponse();
 		Message message = new Message(smsResponse);
-		Media media = new Media("https://dl.dropboxusercontent.com/1/view/rh40j60m6ein7wg/Apps/textadroneDB/hackazMar-03-13.jpg");
+		Media media = new Media(mediaURL);
 		try
 		{
 			message.append(media);
