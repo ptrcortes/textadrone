@@ -32,7 +32,7 @@ public class DetectFaceDemo
 		CascadeClassifier faceDetector = new CascadeClassifier(cascadeFile.getAbsolutePath());
 		System.out.println(faceDetector.empty());
 
-		File[] folder = new File("./pictures/drone/").listFiles();
+		File[] folder = new File("./pictures/").listFiles();
 		int len = 0;
 		for (File f: folder)
 		{
@@ -60,5 +60,10 @@ public class DetectFaceDemo
 				len++;
 			}
 		}
+	}
+	
+	public static void main(String[] args)
+	{
+		new DetectFaceDemo().run();
 	}
 }

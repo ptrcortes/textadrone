@@ -2,7 +2,7 @@ access_token = "IGq2mLEAeLcAAAAAAAAACdK5Lqs8SWHp-IcKA4xO38vy8B7WgTHa9bYaGFPqsh-P
  
 import datetime
 timestamp = datetime.datetime.now().strftime("%h-%m-%S")
-filename = "dronepic" + timestamp + ".jpg"
+filename = "dronepic" + timestamp + ".png"
  
 import dropbox
 client = dropbox.client.DropboxClient(access_token)

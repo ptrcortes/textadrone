@@ -11,7 +11,7 @@ client
   .after(3000, function() {
     this.stop();
     this.land();
-  });
+  })
 	.after(1000, function(){
 		console.log("succesful"); 
 		process.exit(0);

@@ -5,7 +5,6 @@
 	<classpathentry kind="lib" path="jetty/jetty-all-7.0.2.v20100331.jar"/>
 	<classpathentry kind="lib" path="jetty/servlet-api-2.5.jar"/>
 	<classpathentry kind="lib" path="twilio/twilio-java-sdk-3.7.2-jar-with-dependencies.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV-2.4.10"/>
 	<classpathentry kind="lib" path="/home/peter/components/opencv-2.4.10/build/bin/opencv-2410.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

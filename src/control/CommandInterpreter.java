@@ -72,17 +72,15 @@ public class CommandInterpreter
 		}
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		StatusPack pSP = Shell.execute("python ./nodejs/upload_send.py");
-		pSP.message.replaceAll("\n", "");
-		pSP.message.replaceAll("\r", "");
+		pSP.message = pSP.message.replace("\n", "").replace("\r", "");
 		njsSP.message = pSP.message;
-		
+
 		System.out.println(njsSP.message);
-		
+
 		System.out.println(njsSP.command.toString());
 
 		return njsSP;

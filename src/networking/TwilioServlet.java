@@ -1,16 +1,24 @@
 package networking;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import utility.ApprovedSenderList;
 import utility.DroneRequest;
 import utility.StatusPack;
 
-import com.twilio.sdk.verbs.Media;
+import com.twilio.sdk.TwilioRestClient;
+import com.twilio.sdk.TwilioRestException;
+import com.twilio.sdk.resource.factory.MessageFactory;
+import com.twilio.sdk.resource.instance.Account;
 import com.twilio.sdk.verbs.Message;
 import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.TwiMLResponse;
@@ -25,20 +33,12 @@ import control.CommandInterpreter;
  * @author Peter Cortes
  * @author Twilio
  */
-/**
- *
- *
- * @author Peter Cortes
- */
-/**
- *
- *
- * @author Peter Cortes
- */
 public class TwilioServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 7206213494388714136L;
 	private static final String password = "cherry";
+	public static final String ACCOUNT_SID = "AC70dbddca19f9add5c0bce7c1bb61ff50";
+	public static final String AUTH_TOKEN = "620bf1fc6865d6274b2df9fbe9b9a149";
 
 	ApprovedSenderList senders;
 
@@ -94,7 +94,7 @@ public class TwilioServlet extends HttpServlet
 
 			StatusPack droneResponse = CommandInterpreter.interpret(messageContent);
 			if (droneResponse.command == DroneRequest.takePicture || droneResponse.command == DroneRequest.detect)
-				respondWithMMS(response, "picture from drone", droneResponse.message);
+				sendMMS(fromNumber, droneResponse.message);
 
 			else if (droneResponse.status)
 				respondWithSMS(response, "command sent successfully:\n" + droneResponse.message);
@@ -135,24 +135,24 @@ public class TwilioServlet extends HttpServlet
 	 * @param mediaURL
 	 * @throws IOException
 	 */
-	private void respondWithMMS(HttpServletResponse response, String smsResponse, String mediaURL) throws IOException
+	private void sendMMS(String toNumber, String mediaURL)
 	{
-		System.out.println("responding with mms");
-		TwiMLResponse twiml = new TwiMLResponse();
-		Message message = new Message(smsResponse);
-		Media media = new Media(mediaURL);
+		TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
+		Account account = client.getAccount();
+		MessageFactory messageFactory = account.getMessageFactory();
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("To", toNumber));
+		params.add(new BasicNameValuePair("From", "+14242924689"));
+		params.add(new BasicNameValuePair("Body", "drone inteligence"));
+		params.add(new BasicNameValuePair("MediaUrl", mediaURL));
+
 		try
 		{
-			message.append(media);
-			twiml.append(message);
+			messageFactory.create(params);
 		}
-		catch (TwiMLException e)
+		catch (TwilioRestException e)
 		{
 			e.printStackTrace();
 		}
-		response.setContentType("application/xml");
-		response.getWriter().print(twiml.toXML());
-		
-		System.out.println("message 'sent'");
 	}
 }
