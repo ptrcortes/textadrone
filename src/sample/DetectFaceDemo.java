@@ -21,8 +21,6 @@ public class DetectFaceDemo
 {
 	public void run()
 	{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
 		System.out.println("\nRunning DroneDetectFace");
 
 		// Create a face detector from the cascade file in the resources
@@ -33,7 +31,9 @@ public class DetectFaceDemo
 		System.out.println(faceDetector.empty());
 
 		File[] folder = new File("./pictures/").listFiles();
+
 		int len = 0;
+
 		for (File f: folder)
 		{
 			File interestImage = new File(f.toString());
@@ -61,9 +61,10 @@ public class DetectFaceDemo
 			}
 		}
 	}
-	
+
 	public static void main(String[] args)
 	{
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		new DetectFaceDemo().run();
 	}
 }
